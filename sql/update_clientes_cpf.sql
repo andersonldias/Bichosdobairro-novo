@@ -1,0 +1,1 @@
+UPDATE clientes SET cpf = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(cpf, '.', ''), '-', ''), ' ', ''), '/', ''), '(', ''), ')', ''), ',', ''), '_', ''), '*', ''), '+', ''); 

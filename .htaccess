@@ -1,0 +1,134 @@
+# ========================================
+# CONFIGURAÇÃO APACHE - SISTEMA BICHOS DO BAIRRO
+# ========================================
+
+# Habilitar mod_rewrite
+RewriteEngine On
+
+# Configurações de segurança
+<Files ".env">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.log">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger arquivos sensíveis
+<FilesMatch "\.(env|lock|log|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Configurações de cache para assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # CSS, JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    
+    # Imagens
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    
+    # Fontes
+    ExpiresByType font/woff "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 month"
+    ExpiresByType application/font-woff "access plus 1 month"
+    ExpiresByType application/font-woff2 "access plus 1 month"
+</IfModule>
+
+# Compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# Headers de segurança
+<IfModule mod_headers.c>
+    # Proteção XSS
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Prevenir MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (CSP)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self';"
+    
+    # Frame Options
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Configurações de PHP
+<IfModule mod_php.c>
+    # Configurações de upload
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value memory_limit 256M
+    
+    # Configurações de sessão
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 0
+    php_value session.use_strict_mode 1
+    
+    # Configurações de erro (produção)
+    php_flag display_errors off
+    php_flag log_errors on
+    php_value error_log ../logs/php_errors.log
+</IfModule>
+
+# URLs amigáveis (se necessário)
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Redirecionar erros
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
+
+# Configurações de diretório
+Options -Indexes
+Options -MultiViews
+Options +FollowSymLinks
+
+# Configurações de arquivo
+<Files "index.php">
+    Require all granted
+</Files>
+
+# Configurações de diretório específicas
+<Directory "uploads">
+    Require all granted
+</Directory>
+
+<Directory "logs">
+    Require all denied
+</Directory>
+
+<Directory "cache">
+    Require all denied
+</Directory> 

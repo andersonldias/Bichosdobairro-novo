@@ -1,0 +1,535 @@
+/* Responsividade para tabelas */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-responsive table {
+        min-width: 600px;
+    }
+    
+    /* Ocultar colunas menos importantes em mobile */
+    .table-responsive .hide-mobile {
+        display: none;
+    }
+    
+    /* Ajustar padding das células */
+    .table-responsive td,
+    .table-responsive th {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para formulários */
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .form-grid-2 {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .form-grid-3 {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .form-grid-4 {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Responsividade para modais */
+@media (max-width: 640px) {
+    .modal-content {
+        margin: 1rem;
+        padding: 1rem;
+        max-width: calc(100vw - 2rem);
+        min-width: auto !important;
+    }
+    
+    .modal-lg {
+        max-width: calc(100vw - 2rem);
+        min-width: auto !important;
+    }
+}
+
+/* Responsividade para cards */
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsividade para botões */
+@media (max-width: 640px) {
+    .btn-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+}
+
+/* Responsividade para calendário */
+@media (max-width: 768px) {
+    .fc-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .fc-button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para Select2 */
+@media (max-width: 768px) {
+    .select2-container {
+        width: 100% !important;
+    }
+    
+    .select2-dropdown {
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+}
+
+/* Responsividade para inputs */
+@media (max-width: 640px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+}
+
+/* Responsividade para navegação */
+@media (max-width: 768px) {
+    .nav-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .nav-tabs .nav-link {
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+        font-size: 0.875rem;
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+/* Responsividade para paginação */
+@media (max-width: 640px) {
+    .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para alertas */
+@media (max-width: 640px) {
+    .alert {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .alert-dismissible .btn-close {
+        padding: 0.75rem;
+    }
+}
+
+/* Responsividade para tooltips */
+@media (max-width: 768px) {
+    .tooltip {
+        display: none !important;
+    }
+}
+
+/* Responsividade para dropdowns */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Responsividade para badges */
+@media (max-width: 640px) {
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Responsividade para progress bars */
+@media (max-width: 640px) {
+    .progress {
+        height: 0.75rem;
+    }
+    
+    .progress-bar {
+        font-size: 0.75rem;
+    }
+}
+
+/* Responsividade para list groups */
+@media (max-width: 640px) {
+    .list-group-item {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para breadcrumbs */
+@media (max-width: 640px) {
+    .breadcrumb {
+        font-size: 0.875rem;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        padding: 0 0.25rem;
+    }
+}
+
+/* Responsividade para spinners */
+@media (max-width: 640px) {
+    .spinner-border,
+    .spinner-grow {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+/* Responsividade para placeholders */
+@media (max-width: 640px) {
+    .placeholder {
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para toasts */
+@media (max-width: 640px) {
+    .toast {
+        margin: 0.5rem;
+        max-width: calc(100vw - 1rem);
+    }
+}
+
+/* Responsividade para modais de confirmação */
+@media (max-width: 640px) {
+    .swal2-popup {
+        margin: 1rem;
+        padding: 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .swal2-title {
+        font-size: 1.25rem;
+    }
+    
+    .swal2-content {
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para gráficos */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+}
+
+/* Responsividade para filtros */
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .filter-form .form-group {
+        width: 100%;
+    }
+}
+
+/* Responsividade para ações em tabelas */
+@media (max-width: 640px) {
+    .table-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .table-actions .btn {
+        width: 100%;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Responsividade para status badges */
+@media (max-width: 640px) {
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Responsividade para horários */
+@media (max-width: 640px) {
+    .time-slot {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Responsividade para preços */
+@media (max-width: 640px) {
+    .price {
+        font-size: 1rem;
+    }
+    
+    .price-large {
+        font-size: 1.25rem;
+    }
+}
+
+/* Responsividade para avatares */
+@media (max-width: 640px) {
+    .avatar {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .avatar-lg {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+/* Responsividade para ícones */
+@media (max-width: 640px) {
+    .icon-sm {
+        font-size: 0.875rem;
+    }
+    
+    .icon-lg {
+        font-size: 1.25rem;
+    }
+}
+
+/* Responsividade para loading */
+@media (max-width: 640px) {
+    .loading-spinner {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+/* Responsividade para notificações */
+@media (max-width: 640px) {
+    .notification-item {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .notification-time {
+        font-size: 0.75rem;
+    }
+}
+
+/* Responsividade para search */
+@media (max-width: 640px) {
+    .search-box {
+        width: 100%;
+    }
+    
+    .search-results {
+        max-height: 300px;
+    }
+}
+
+/* Responsividade para autocomplete */
+@media (max-width: 640px) {
+    .autocomplete-dropdown {
+        max-height: 200px;
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para datepicker */
+@media (max-width: 640px) {
+    .datepicker {
+        font-size: 0.875rem;
+    }
+    
+    .datepicker table {
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para timepicker */
+@media (max-width: 640px) {
+    .timepicker {
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para colorpicker */
+@media (max-width: 640px) {
+    .colorpicker {
+        width: 250px;
+    }
+}
+
+/* Responsividade para file upload */
+@media (max-width: 640px) {
+    .file-upload {
+        padding: 1rem;
+    }
+    
+    .file-upload input[type="file"] {
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para drag and drop */
+@media (max-width: 640px) {
+    .drag-drop-zone {
+        padding: 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Responsividade para progress upload */
+@media (max-width: 640px) {
+    .upload-progress {
+        height: 0.5rem;
+    }
+    
+    .upload-progress .progress-bar {
+        font-size: 0.75rem;
+    }
+}
+
+/* Responsividade para preview de imagem */
+@media (max-width: 640px) {
+    .image-preview {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Responsividade para galeria */
+@media (max-width: 640px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+}
+
+/* Responsividade para lightbox */
+@media (max-width: 640px) {
+    .lightbox {
+        padding: 0.5rem;
+    }
+    
+    .lightbox img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Responsividade para vídeo */
+@media (max-width: 640px) {
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+    }
+    
+    .video-container iframe,
+    .video-container video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* Responsividade para áudio */
+@media (max-width: 640px) {
+    .audio-player {
+        width: 100%;
+    }
+    
+    .audio-player audio {
+        width: 100%;
+    }
+}
+
+/* Responsividade para mapas */
+@media (max-width: 640px) {
+    .map-container {
+        height: 300px;
+    }
+}
+
+/* Responsividade para impressão */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-only {
+        display: block !important;
+    }
+    
+    .sidebar,
+    .header,
+    .footer {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+} 

@@ -1,0 +1,191 @@
+/* FullCalendar CSS Local - Versão Simplificada */
+.fc {
+  direction: ltr;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.fc table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1em;
+}
+
+.fc th {
+  text-align: center;
+}
+
+.fc th,
+.fc td {
+  border-style: solid;
+  border-width: 1px;
+  padding: 0;
+  vertical-align: top;
+}
+
+.fc-direction-ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid #ddd;
+}
+
+.fc-scrollgrid {
+  border: none;
+  width: 100%;
+}
+
+.fc-scrollgrid table {
+  width: 100%;
+}
+
+.fc-col-header-cell {
+  background: #f9fafb;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px 8px;
+  border-bottom: 2px solid #e5e7eb;
+  color: #374151;
+  font-size: 14px;
+}
+
+.fc-daygrid-day {
+  background: #fff;
+  min-height: 120px;
+  position: relative;
+  border: 1px solid #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+.fc-daygrid-day:hover {
+  background: #f9fafb;
+}
+
+.fc-daygrid-day.fc-today {
+  background: #fef3c7;
+  border-color: #f59e0b;
+}
+
+.fc-day-other {
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
+.fc-daygrid-day-number {
+  padding: 8px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.fc-today .fc-daygrid-day-number {
+  color: #92400e;
+  font-weight: 700;
+}
+
+.fc-day-other .fc-daygrid-day-number {
+  color: #9ca3af;
+}
+
+.fc-event {
+  background: #3b82f6;
+  border: 1px solid #3b82f6;
+  color: #fff;
+  padding: 4px 6px;
+  margin: 2px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.fc-event:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Toolbar styles */
+.fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 8px 8px 0 0;
+}
+
+.fc-toolbar-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.fc-button {
+  background: #3b82f6;
+  border: 1px solid #3b82f6;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fc-button:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.fc-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.fc-toolbar-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.fc-button {
+  background: #007bff;
+  border: 1px solid #007bff;
+  color: white;
+  padding: 6px 12px;
+  margin: 0 2px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fc-button:hover {
+  background: #0056b3;
+}
+
+.fc-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fc-today {
+  background: #fff3cd !important;
+}
+
+.fc-day-other {
+  background: #f8f9fa;
+  color: #6c757d;
+}

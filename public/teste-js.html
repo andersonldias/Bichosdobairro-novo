@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste JavaScript</title>
+</head>
+<body>
+    <h1>Teste JavaScript</h1>
+    <div id="output"></div>
+    
+    <script>
+        console.log('Script inline funcionando');
+        document.getElementById('output').innerHTML = 'JavaScript funcionando!';
+    </script>
+    
+    <script src="js/address-search.js"></script>
+    
+    <script>
+        console.log('Após carregar address-search.js');
+        console.log('window.AddressSearch:', typeof window.AddressSearch);
+        console.log('window.addressSearch:', typeof window.addressSearch);
+        
+        setTimeout(() => {
+            console.log('Após 2 segundos:');
+            console.log('window.AddressSearch:', typeof window.AddressSearch);
+            console.log('window.addressSearch:', typeof window.addressSearch);
+        }, 2000);
+    </script>
+</body>
+</html>

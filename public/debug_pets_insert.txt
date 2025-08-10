@@ -1,0 +1,3 @@
+Tentando inserir pet: nome=Denis, especie=Canina, raca=SRD, idade=, cliente_id=16
+Tentando inserir pet: nome=Dora, especie=Canina, raca=SRD, idade=, cliente_id=17
+Tentando inserir pet: nome=Denis, especie=Canina, raca=SRD, idade=, cliente_id=18

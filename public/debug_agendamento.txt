@@ -1,0 +1,41 @@
+Array
+(
+    [POST] => Array
+        (
+            [id] => 
+            [cliente_id] => 22
+            [pet_id] => 7
+            [data] => 2025-07-15
+            [hora] => 09:00
+            [servico] => Tosa
+            [status] => Pendente
+            [observacoes] => Tosar bem baixo
+        )
+
+    [valores] => Array
+        (
+            [id] => 
+            [pet_id] => 7
+            [cliente_id] => 22
+            [data] => 2025-07-15
+            [hora] => 09:00
+            [servico] => Tosa
+            [status] => Pendente
+            [observacoes] => Tosar bem baixo
+        )
+
+    [acao] => criar
+    [dados_para_criar] => Array
+        (
+            [cliente_id] => 22
+            [pet_id] => 7
+            [data] => 2025-07-15
+            [hora] => 09:00
+            [servico] => Tosa
+            [observacoes] => Tosar bem baixo
+            [status] => Pendente
+        )
+
+    [resultado_funcao] => 6
+    [resultado] => ok
+)
