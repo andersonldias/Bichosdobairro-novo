@@ -30,9 +30,9 @@ class Config {
             
             // Aplicação
             'APP_NAME' => 'Bichos do Bairro',
-            'APP_ENV' => 'production',
-            'APP_DEBUG' => false,
-            'APP_URL' => 'https://bichosdobairro.com.br',
+            'APP_ENV' => 'development',
+            'APP_DEBUG' => true,
+            'APP_URL' => 'http://localhost',
             'APP_TIMEZONE' => 'America/Sao_Paulo',
             'APP_LOCALE' => 'pt_BR',
             'APP_VERSION' => '1.0.0',

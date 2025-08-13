@@ -1,4 +1,23 @@
 <?php
+/**
+ * PÁGINA: clientes.php
+ * SISTEMA: Bichos do Bairro - Gestão de Clientes
+ * 
+ * ⚠️  ATENÇÃO - FUNCIONALIDADES CRÍTICAS EM FUNCIONAMENTO:
+ * ✅ Listagem de clientes funcionando
+ * ✅ Formulário de cadastro ativo
+ * ✅ Edição e exclusão implementadas
+ * ✅ Busca e filtros operacionais
+ * 
+ * 🚨 NÃO ALTERE SEM BACKUP:
+ * - Formulários de cadastro/edição
+ * - Tabela de listagem
+ * - JavaScript de validação
+ * - Endpoints AJAX
+ * 
+ * 📝 REGRA DE OURO:
+ * "Ao fazer upgrade ou alteração, NÃO MUDE NADA que já está funcionando"
+ */
 require_once '../src/init.php';
 
 // Verificar se é uma requisição AJAX

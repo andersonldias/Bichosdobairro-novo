@@ -63,26 +63,6 @@ class Utils {
     }
     
     /**
-     * Formatar telefone apenas para exibição (não altera o banco)
-     */
-    public static function formatPhoneDisplay($phone) {
-        $phone = preg_replace('/[^0-9]/', '', $phone);
-        if (strlen($phone) == 11) {
-            return '(' . substr($phone, 0, 2) . ') ' . substr($phone, 2, 5) . '-' . substr($phone, 7);
-        } elseif (strlen($phone) == 10) {
-            return '(' . substr($phone, 0, 2) . ') ' . substr($phone, 2, 4) . '-' . substr($phone, 6);
-        }
-        return $phone;
-    }
-    
-    /**
-     * Limpar telefone para salvamento no banco
-     */
-    public static function cleanPhoneForDatabase($phone) {
-        return preg_replace('/[^0-9]/', '', $phone);
-    }
-    
-    /**
      * Valida email
      */
     public static function validateEmail($email) {
@@ -238,4 +218,4 @@ class Utils {
         
         file_put_contents($logFile, $logEntry, FILE_APPEND | LOCK_EX);
     }
-}
+} 

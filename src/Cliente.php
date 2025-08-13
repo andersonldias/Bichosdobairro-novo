@@ -29,57 +29,25 @@ class Cliente extends BaseModel {
     
     /**
      * Criar novo cliente
-     * E-mail é opcional, telefone é obrigatório, CPF é obrigatório
      */
     public static function criar($dados) {
         $pdo = getDb();
         
-        // Validação: telefone é obrigatório
-        if (empty($dados['telefone'])) {
-            throw new Exception('Telefone é obrigatório');
-        }
-        
-        // Validação: telefone não pode ser duplicado
-        if (self::verificarDuplicidadeTelefone($dados['telefone'])) {
-            throw new Exception('Telefone já está cadastrado para outro cliente');
-        }
-        
-        // Validação: CPF é obrigatório
-        if (empty($dados['cpf'])) {
-            throw new Exception('CPF é obrigatório');
-        }
-        
         try {
-            $sql = "INSERT INTO clientes (nome, email, telefone, cpf, cep, logradouro, numero, complemento, bairro, cidade, estado, observacoes, criado_em) 
-                    VALUES (:nome, :email, :telefone, :cpf, :cep, :logradouro, :numero, :complemento, :bairro, :cidade, :estado, :observacoes, NOW())";
+            $sql = "INSERT INTO clientes (nome, email, telefone, cpf, endereco, observacoes, created_at) 
+                    VALUES (:nome, :email, :telefone, :cpf, :endereco, :observacoes, NOW())";
             
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 'nome' => $dados['nome'],
-                'email' => !empty($dados['email']) ? $dados['email'] : null,
-                'telefone' => preg_replace('/[^0-9]/', '', $dados['telefone']),
-                'cpf' => $dados['cpf'],
-                'cep' => $dados['cep'] ?? null,
-                'logradouro' => $dados['logradouro'] ?? null,
-                'numero' => $dados['numero'] ?? null,
-                'complemento' => $dados['complemento'] ?? null,
-                'bairro' => $dados['bairro'] ?? null,
-                'cidade' => $dados['cidade'] ?? null,
-                'estado' => $dados['estado'] ?? null,
-                'observacoes' => $dados['observacoes'] ?? null
+                'email' => $dados['email'] ?? '',
+                'telefone' => $dados['telefone'],
+                'cpf' => $dados['cpf'] ?? '',
+                'endereco' => $dados['endereco'] ?? '',
+                'observacoes' => $dados['observacoes'] ?? ''
             ]);
             
             $id = $pdo->lastInsertId();
-            
-            // Salvar telefones se fornecidos
-            if (!empty($dados['telefones']) && is_array($dados['telefones'])) {
-                self::salvarTelefones($id, $dados['telefones']);
-            }
-            
-            // Salvar pets se fornecidos
-            if (!empty($dados['pets']) && is_array($dados['pets'])) {
-                self::salvarPets($id, $dados['pets']);
-            }
             
             // Criar notificação
             if (class_exists('Notificacao')) {
@@ -95,25 +63,9 @@ class Cliente extends BaseModel {
     
     /**
      * Atualizar cliente
-     * E-mail é opcional, telefone é obrigatório, CPF é obrigatório
      */
     public static function atualizar($id, $dados) {
         $pdo = getDb();
-        
-        // Validação: telefone é obrigatório
-        if (empty($dados['telefone'])) {
-            throw new Exception('Telefone é obrigatório');
-        }
-        
-        // Validação: telefone não pode ser duplicado (excluindo o cliente atual)
-        if (self::verificarDuplicidadeTelefone($dados['telefone'], $id)) {
-            throw new Exception('Telefone já está cadastrado para outro cliente');
-        }
-        
-        // Validação: CPF é obrigatório
-        if (empty($dados['cpf'])) {
-            throw new Exception('CPF é obrigatório');
-        }
         
         try {
             $sql = "UPDATE clientes SET 
@@ -121,13 +73,7 @@ class Cliente extends BaseModel {
                         email = :email, 
                         telefone = :telefone, 
                         cpf = :cpf, 
-                        cep = :cep,
-                        logradouro = :logradouro,
-                        numero = :numero,
-                        complemento = :complemento,
-                        bairro = :bairro,
-                        cidade = :cidade,
-                        estado = :estado,
+                        endereco = :endereco, 
                         observacoes = :observacoes, 
                         updated_at = NOW() 
                     WHERE id = :id";
@@ -135,29 +81,13 @@ class Cliente extends BaseModel {
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 'nome' => $dados['nome'],
-                'email' => !empty($dados['email']) ? $dados['email'] : null,
-                'telefone' => preg_replace('/[^0-9]/', '', $dados['telefone']),
-                'cpf' => $dados['cpf'],
-                'cep' => $dados['cep'] ?? null,
-                'logradouro' => $dados['logradouro'] ?? null,
-                'numero' => $dados['numero'] ?? null,
-                'complemento' => $dados['complemento'] ?? null,
-                'bairro' => $dados['bairro'] ?? null,
-                'cidade' => $dados['cidade'] ?? null,
-                'estado' => $dados['estado'] ?? null,
-                'observacoes' => $dados['observacoes'] ?? null,
+                'email' => $dados['email'] ?? '',
+                'telefone' => $dados['telefone'],
+                'cpf' => $dados['cpf'] ?? '',
+                'endereco' => $dados['endereco'] ?? '',
+                'observacoes' => $dados['observacoes'] ?? '',
                 'id' => $id
             ]);
-            
-            // Salvar telefones se fornecidos
-            if (!empty($dados['telefones']) && is_array($dados['telefones'])) {
-                self::salvarTelefones($id, $dados['telefones']);
-            }
-            
-            // Salvar pets se fornecidos
-            if (!empty($dados['pets']) && is_array($dados['pets'])) {
-                self::salvarPets($id, $dados['pets']);
-            }
             
             return $stmt->rowCount() > 0;
         } catch (Exception $e) {
@@ -272,8 +202,9 @@ class Cliente extends BaseModel {
      * Obter clientes inativos (sem agendamentos nos últimos 6 meses)
      */
     public static function getClientesInativos() {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT c.*, MAX(a.data) as ultimo_agendamento
                     FROM clientes c 
                     LEFT JOIN agendamentos a ON c.id = a.cliente_id 
@@ -294,8 +225,9 @@ class Cliente extends BaseModel {
      * Obter estatísticas de clientes
      */
     public static function getEstatisticas() {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT 
                         COUNT(*) as total,
                         SUM(CASE WHEN created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) THEN 1 ELSE 0 END) as novos_30_dias,
@@ -316,8 +248,9 @@ class Cliente extends BaseModel {
      * Verificar se CPF já existe
      */
     public static function cpfExiste($cpf, $excluirId = null) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT COUNT(*) as total FROM clientes WHERE cpf = :cpf";
             $params = ['cpf' => $cpf];
             
@@ -338,17 +271,13 @@ class Cliente extends BaseModel {
     }
     
     /**
-     * Verificar se email já existe (e-mail é opcional)
+     * Verificar se email já existe
      */
     public static function emailExiste($email, $excluirId = null) {
-        // Se o e-mail estiver vazio, não verificar duplicidade
-        if (empty($email)) {
-            return false;
-        }
+        global $pdo;
         
         try {
-            $pdo = getDb();
-            $sql = "SELECT COUNT(*) as total FROM clientes WHERE email = :email AND email IS NOT NULL";
+            $sql = "SELECT COUNT(*) as total FROM clientes WHERE email = :email AND email != ''";
             $params = ['email' => $email];
             
             if ($excluirId) {
@@ -371,8 +300,9 @@ class Cliente extends BaseModel {
      * Obter histórico de agendamentos do cliente
      */
     public static function getHistoricoAgendamentos($id, $limite = 20) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT a.*, p.nome as pet_nome 
                     FROM agendamentos a 
                     JOIN pets p ON a.pet_id = p.id 
@@ -396,8 +326,9 @@ class Cliente extends BaseModel {
      * Obter preferências do cliente
      */
     public static function getPreferencias($id) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT 
                         servico,
                         COUNT(*) as total,
@@ -450,8 +381,9 @@ class Cliente extends BaseModel {
      * Obter relatório de clientes
      */
     public static function getRelatorio($dataInicio, $dataFim) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT 
                         c.*,
                         COUNT(a.id) as total_agendamentos,
@@ -482,8 +414,9 @@ class Cliente extends BaseModel {
      * Buscar telefones do cliente
      */
     public static function buscarTelefones($clienteId) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT * FROM telefones WHERE cliente_id = :cliente_id ORDER BY id ASC";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(['cliente_id' => $clienteId]);
@@ -499,34 +432,22 @@ class Cliente extends BaseModel {
      * Verificar duplicidade de telefone
      */
     public static function verificarDuplicidadeTelefone($telefone, $excluirId = null) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
-            
-            // Limpar telefone (remover caracteres especiais) para comparação
-            $telefone_limpo = preg_replace('/[^0-9]/', '', $telefone);
-            
-            // Buscar todos os telefones e comparar os limpos no PHP
-            $sql = "SELECT telefone FROM clientes";
-            $params = [];
+            $sql = "SELECT COUNT(*) as total FROM telefones WHERE numero = :telefone";
+            $params = ['telefone' => $telefone];
             
             if ($excluirId) {
-                $sql .= " WHERE id != :excluir_id";
+                $sql .= " AND cliente_id != :excluir_id";
                 $params['excluir_id'] = $excluirId;
             }
             
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
-            $telefones = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $resultado = $stmt->fetch();
             
-            // Verificar se algum telefone limpo é igual ao telefone de teste
-            foreach ($telefones as $telefone_banco) {
-                $telefone_banco_limpo = preg_replace('/[^0-9]/', '', $telefone_banco);
-                if ($telefone_banco_limpo === $telefone_limpo) {
-                    return true;
-                }
-            }
-            
-            return false;
+            return $resultado['total'] > 0;
         } catch (Exception $e) {
             logError('Erro ao verificar duplicidade de telefone: ' . $e->getMessage());
             return false;
@@ -537,8 +458,9 @@ class Cliente extends BaseModel {
      * Verificar duplicidade de campo
      */
     public static function verificarDuplicidade($campo, $valor, $excluirId = null) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT COUNT(*) as total FROM clientes WHERE $campo = :valor";
             $params = ['valor' => $valor];
             
@@ -591,22 +513,17 @@ class Cliente extends BaseModel {
     
     /**
      * Verificar se existe cliente duplicado
-     * E-mail é opcional, só verifica se não estiver vazio
      */
     public static function existeDuplicado($nome, $email, $cpf, $ignorarId = null) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
-            $sql = "SELECT COUNT(*) as total FROM clientes WHERE (nome = :nome OR cpf = :cpf)";
+            $sql = "SELECT COUNT(*) as total FROM clientes WHERE (nome = :nome OR email = :email OR cpf = :cpf)";
             $params = [
                 'nome' => $nome,
+                'email' => $email,
                 'cpf' => $cpf
             ];
-            
-            // Só verificar e-mail se não estiver vazio
-            if (!empty($email)) {
-                $sql .= " OR email = :email";
-                $params['email'] = $email;
-            }
             
             if ($ignorarId) {
                 $sql .= " AND id != :ignorar_id";
@@ -628,8 +545,9 @@ class Cliente extends BaseModel {
      * Buscar cliente por ID
      */
     public static function buscarPorId($id) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT * FROM clientes WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(['id' => $id]);
@@ -645,8 +563,9 @@ class Cliente extends BaseModel {
      * Deletar cliente
      */
     public static function deletar($id) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             // Primeiro deletar telefones relacionados
             $pdo->exec("DELETE FROM telefones WHERE cliente_id = $id");
             
@@ -663,8 +582,9 @@ class Cliente extends BaseModel {
     }
 
     public static function buscarPorNome($termo) {
+        global $pdo;
+        
         try {
-            $pdo = getDb();
             $sql = "SELECT * FROM clientes WHERE nome LIKE :termo ORDER BY nome LIMIT 20";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(['termo' => "%$termo%"]);
@@ -674,77 +594,4 @@ class Cliente extends BaseModel {
             return [];
         }
     }
-    
-    /**
-     * Salvar telefones do cliente
-     */
-    public static function salvarTelefones($clienteId, $telefones) {
-        if (empty($telefones) || !is_array($telefones)) {
-            return false;
-        }
-        
-        try {
-            $pdo = getDb();
-            
-            // Primeiro deletar telefones existentes
-            $stmt = $pdo->prepare("DELETE FROM telefones WHERE cliente_id = :cliente_id");
-            $stmt->execute(['cliente_id' => $clienteId]);
-            
-            // Inserir novos telefones
-            $stmt = $pdo->prepare("INSERT INTO telefones (cliente_id, nome, numero, criado_em) VALUES (:cliente_id, :nome, :numero, NOW())");
-            
-            foreach ($telefones as $telefone) {
-                if (!empty($telefone['numero'])) {
-                    $numeroLimpo = preg_replace('/[^0-9]/', '', $telefone['numero']);
-                    $stmt->execute([
-                        'cliente_id' => $clienteId,
-                        'nome' => $telefone['nome'] ?: 'Principal',
-                        'numero' => $numeroLimpo
-                    ]);
-                }
-            }
-            
-            return true;
-        } catch (Exception $e) {
-            logError('Erro ao salvar telefones: ' . $e->getMessage());
-            return false;
-        }
-    }
-    
-    /**
-     * Salvar pets do cliente
-     */
-    public static function salvarPets($clienteId, $pets) {
-        if (empty($pets) || !is_array($pets)) {
-            return false;
-        }
-        
-        try {
-            $pdo = getDb();
-            
-            // Primeiro deletar pets existentes
-            $stmt = $pdo->prepare("DELETE FROM pets WHERE cliente_id = :cliente_id");
-            $stmt->execute(['cliente_id' => $clienteId]);
-            
-            // Inserir novos pets
-            $stmt = $pdo->prepare("INSERT INTO pets (cliente_id, nome, especie, raca, idade, criado_em) VALUES (:cliente_id, :nome, :especie, :raca, :idade, NOW())");
-            
-            foreach ($pets as $pet) {
-                if (!empty($pet['nome'])) {
-                    $stmt->execute([
-                        'cliente_id' => $clienteId,
-                        'nome' => $pet['nome'],
-                        'especie' => $pet['especie'] ?: null,
-                        'raca' => $pet['raca'] ?: null,
-                        'idade' => $pet['idade'] ?: null
-                    ]);
-                }
-            }
-            
-            return true;
-        } catch (Exception $e) {
-            logError('Erro ao salvar pets: ' . $e->getMessage());
-            return false;
-        }
-    }
-}
+} 

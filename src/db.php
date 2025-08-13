@@ -29,6 +29,9 @@ if (Config::get('APP_ENV') === 'production') {
     $options[PDO::ATTR_PERSISTENT] = false; // Desabilitar conexões persistentes em produção
 }
 
+// Inicializar variável global
+$pdo = null;
+
 try {
     // Criar conexão PDO
     $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['pass'], $options);
@@ -52,6 +55,9 @@ try {
 } catch (PDOException $e) {
     // Log do erro
     error_log("Erro na conexão com banco: " . $e->getMessage());
+    
+    // Definir $pdo como null em caso de erro
+    $pdo = null;
     
     // Em produção, mostrar erro genérico
     if (Config::get('APP_ENV') === 'production') {
@@ -177,5 +183,27 @@ function getTableInfo($tableName) {
 
 function getDb() {
     global $pdo;
+    
+    // Se $pdo for null, tentar reconectar
+    if ($pdo === null) {
+        // Recarregar este arquivo para tentar reconectar
+        $dbConfig = Config::getDbConfig();
+        $dsn = "mysql:host={$dbConfig['host']};dbname={$dbConfig['name']};charset={$dbConfig['charset']}";
+        
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES {$dbConfig['charset']}"
+        ];
+        
+        try {
+            $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['pass'], $options);
+        } catch (PDOException $e) {
+            error_log("Erro na reconexão: " . $e->getMessage());
+            return null;
+        }
+    }
+    
     return $pdo;
-} 
+}

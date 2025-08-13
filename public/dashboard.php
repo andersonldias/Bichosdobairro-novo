@@ -70,4 +70,4 @@ function render_content() {
     </div>
 <?php
 }
-include 'layout.php'; 
+include 'layout.php';
