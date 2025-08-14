@@ -1,1 +1,7 @@
-[33mc5c3b2c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m feat: implementar melhorias de UX nos formularios de clientes - E-mail opcional e telefone obrigatorio - Autofoco no primeiro campo - Navegação com Enter entre campos - Validações atualizadas - Documentação das mudanças
+
+                   SSUUMMMMAARRYY OOFF LLEESSSS CCOOMMMMAANNDDSS
+
+      Commands marked with * may be preceded by a number, _N.
+      Notes in parentheses indicate the behavior if _N is given.
+      A key preceded by a caret indicates the Ctrl key; thus ^K is ctrl-K.
+
